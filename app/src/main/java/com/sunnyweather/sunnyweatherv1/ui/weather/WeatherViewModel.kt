@@ -23,7 +23,7 @@ class WeatherViewModel:ViewModel() {
     }
 
     fun refreshWeather(lng:String, lat:String){
-        locationLiveData.value = com.sunnyweather.sunnyweatherv1.logic.model.Location(lng,lat)
+        locationLiveData.value = Location(lng,lat)
     }
 
 }

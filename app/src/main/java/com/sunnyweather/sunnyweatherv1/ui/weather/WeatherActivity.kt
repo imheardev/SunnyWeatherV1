@@ -1,13 +1,17 @@
 package com.sunnyweather.sunnyweatherv1.ui.weather
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.sunnyweather.sunnyweatherv1.R
@@ -35,6 +39,21 @@ class WeatherActivity : AppCompatActivity() {
         }
         setContentView(binding.root)
 
+        binding.now.navBtn.setOnClickListener {
+            binding.drawerLayout.openDrawer(GravityCompat.START)
+        }
+        binding.drawerLayout.addDrawerListener(object :DrawerLayout.DrawerListener{
+            override fun onDrawerStateChanged(newState: Int) {}
+            override fun onDrawerSlide(drawerView: View, slideOffset: Float) {}
+            override fun onDrawerOpened(drawerView: View) {}
+            override fun onDrawerClosed(drawerView: View) {
+                val manager = getSystemService(Context.INPUT_METHOD_SERVICE)
+                as InputMethodManager
+                manager.hideSoftInputFromWindow(drawerView.windowToken,
+                    InputMethodManager.HIDE_NOT_ALWAYS)
+            }
+        })
+
         if(viewModel.locationLng.isEmpty()){
 //            TODO no magical word，参数名应定义在model中，取参用语法：${model.常量名}，避免输入错误参数名问题
             viewModel.locationLng = intent.getStringExtra("location_lng")?:""
@@ -53,8 +72,18 @@ class WeatherActivity : AppCompatActivity() {
                 "无法成功获取天气信息".showToast()
                 result.exceptionOrNull()?.printStackTrace()
             }
+            binding.swipeRefresh.isRefreshing = false
         })
+        binding.swipeRefresh.setColorSchemeResources(R.color.colorPrimary)
+        refreshWeather()
+        binding.swipeRefresh.setOnRefreshListener {
+            refreshWeather()
+        }
+    }
+
+    fun refreshWeather(){
         viewModel.refreshWeather(viewModel.locationLng,viewModel.locationLat)
+        binding.swipeRefresh.isRefreshing = true
     }
 
     private fun showWeatherInfo(weather: Weather){
@@ -78,11 +107,10 @@ class WeatherActivity : AppCompatActivity() {
             val view = LayoutInflater.from(this).inflate(R.layout.forecast_item,
             binding.forecast.forecastLayout,false)
 //            TODO 这里如何使用视图绑定写法替换，难点：在activity中取得其他activity的绑定视图
-            val dateInfo = binding.forecast.forecastLayout.findViewById(R.id.dateInfo) as TextView
-//            val dateInfo = view.findViewById<TextView>(R.id.dateInfo)
-            val skyIcon = view.findViewById<ImageView>(R.id.skyIcon)
-            val skyInfo = view.findViewById<TextView>(R.id.skyInfo)
-            val temperatureInfo = view.findViewById<TextView>(R.id.temperatureInfo)
+            val dateInfo = view.findViewById(R.id.dateInfo) as TextView
+            val skyIcon = view.findViewById(R.id.skyIcon) as ImageView
+            val skyInfo = view.findViewById(R.id.skyInfo) as TextView
+            val temperatureInfo = view.findViewById(R.id.temperatureInfo) as TextView
             val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
             dateInfo.text = simpleDateFormat.format(skycon.date)
             val sky = getSky(skycon.value)
@@ -98,5 +126,10 @@ class WeatherActivity : AppCompatActivity() {
         binding.lifeIndex.dressingText.text = lifeIndex.dressing[0].desc
         binding.lifeIndex.ultravioletText.text = lifeIndex.ultraviolet[0].desc
         binding.lifeIndex.carWashingText.text = lifeIndex.carWashing[0].desc
+        binding.weatherLayout.visibility = View.VISIBLE
+    }
+
+    fun closeDrawers() {
+        binding.drawerLayout.closeDrawers()
     }
 }
