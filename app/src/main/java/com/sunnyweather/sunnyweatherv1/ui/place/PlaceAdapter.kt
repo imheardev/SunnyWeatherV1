@@ -40,7 +40,7 @@ RecyclerView.Adapter<PlaceAdapter.ViewHolder>(){
                     putExtra("location_lat",place.location.lat)
                     putExtra("place_name",place.name)
                 }
-                fragment.viewModel.savePlace(place)
+                fragment.startActivity(intent)
                 fragment.activity?.finish()
             }
             fragment.viewModel.savePlace(place)

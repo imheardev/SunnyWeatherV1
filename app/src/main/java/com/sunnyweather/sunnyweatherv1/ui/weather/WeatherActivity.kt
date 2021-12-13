@@ -30,8 +30,8 @@ class WeatherActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityWeatherBinding.inflate(layoutInflater)
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R){
-            window.setDecorFitsSystemWindows(false)
+        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.Q){
+//            window.setDecorFitsSystemWindows(false)
         }else{
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
                     View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -47,7 +47,7 @@ class WeatherActivity : AppCompatActivity() {
             override fun onDrawerSlide(drawerView: View, slideOffset: Float) {}
             override fun onDrawerOpened(drawerView: View) {}
             override fun onDrawerClosed(drawerView: View) {
-                val manager = getSystemService(Context.INPUT_METHOD_SERVICE)
+                val manager = getSystemService(INPUT_METHOD_SERVICE)
                 as InputMethodManager
                 manager.hideSoftInputFromWindow(drawerView.windowToken,
                     InputMethodManager.HIDE_NOT_ALWAYS)
