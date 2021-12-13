@@ -97,6 +97,12 @@
                         android:textColor="?android:attr/textColorPrimary"/>
                 </LinearLayout>
             </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp">
 
             <RelativeLayout
                 android:layout_width="0dp"
@@ -169,8 +175,8 @@
                         android:textColor="?android:attr/textColorPrimary"/>
                 </LinearLayout>
             </RelativeLayout>
-
         </LinearLayout>
+
     </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>

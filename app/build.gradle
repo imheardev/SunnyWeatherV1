@@ -17,19 +17,6 @@ android {
     }
     signingConfigs{
         config{
-            //加载资源
-//            Properties properties = new Properties()
-//            InputStream inputStream = project.rootProject.file('local.properties').newDataInputStream() ;
-//            properties.load( inputStream )
-            //读取文件
-//            def sdkDir = properties.getProperty('key.file')
-//            storeFile file( sdkDir )
-            //读取字段
-//            def KEY_PATH = properties.getProperty('KEY_PATH')
-//            def KEY_PASS = properties.getProperty('KEY_PASS')
-//            def ALIAS_NAME = properties.getProperty('ALIAS_NAME')
-//            def ALIAS_PASS = properties.getProperty('ALIAS_PASS')
-
             storeFile file(KEY_PATH)
             storePassword KEY_PASS
             keyAlias ALIAS_NAME
@@ -54,7 +41,7 @@ android {
     viewBinding{
         enabled = true
     }
-    compileSdkVersion 29
+    compileSdkVersion 31
 }
 
 dependencies {

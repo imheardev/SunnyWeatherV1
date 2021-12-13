@@ -31,7 +31,7 @@ class WeatherActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityWeatherBinding.inflate(layoutInflater)
         if(Build.VERSION.SDK_INT > Build.VERSION_CODES.Q){
-//            window.setDecorFitsSystemWindows(false)
+            window.setDecorFitsSystemWindows(false)
         }else{
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
                     View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
